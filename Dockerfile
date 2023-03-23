@@ -5,12 +5,12 @@ FROM golang:latest
 WORKDIR /app
 
 # Copy the source code of this folder inside the container
-COPY . . /app/
+COPY . .
 
 # Download and install dependencies
 RUN go get -d -v ./...
 
-# Build the GO app
+# Build the Go app
 RUN go build -o api .
 
 #Expose the port
