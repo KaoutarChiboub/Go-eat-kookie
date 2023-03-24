@@ -30,7 +30,9 @@ If you want to create an API in Go, you want to be able to route your request no
 For this tutorial, we are manipulating Mux since it is generally considered to be better due to its more customizable, performant, and feature-rich nature, as well as its comprehensive documentation and established community. However, you can use other frameworks like Gin-Gonic, Go-Chi and so on.
 
 ### Building our Go API
-First, create a new project directory in go path /usr/<username>/project 
-`$ mkdir go-api && cd go-api`
-`$ go mod init api`
+First, create a new project directory: 
+ 
+`$ mkdir go-api && cd go-api`  
+`$ go mod init api`  
+
 You will usually find Go projects using GitHub or GitLab path as module name though you can also set it up with a custom domain as the case above.
