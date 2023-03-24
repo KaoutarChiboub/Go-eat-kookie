@@ -13,9 +13,10 @@ import (
 )
 
 type Machine struct {
-	ID   string `json:"id"` // json mapping to be able to encode and decode json with postamn
-	Name string `json:"name"`
-	//Plugs *Plugs `json:"plugs"` //pointer to the Director struct to have the same info as in the struct
+	ID           string `json:"id"` // json mapping to be able to encode and decode json with postamn
+	Name         string `json:"name"`
+	OutletNumber int    `json:"outlet_number"`
+	Status       string `json:"status"`
 }
 
 //type Plugs struct {
@@ -38,7 +39,7 @@ func getMachines(db *sql.DB) http.HandlerFunc {
 		machines := []Machine{}
 		for rows.Next() {
 			var m Machine
-			if err := rows.Scan(&m.ID, &m.Name); err != nil {
+			if err := rows.Scan(&m.ID, &m.Name, &m.OutletNumber, &m.Status); err != nil {
 				log.Fatal(err)
 			}
 			if err := rows.Err(); err != nil {
@@ -55,7 +56,7 @@ func deleteMachine(db *sql.DB) http.HandlerFunc {
 		params := mux.Vars(r) //params extracts the URL parameters from the request made by the client => Here its the machine ID.
 		id := params["id"]
 		var m Machine
-		err := db.QueryRow("SELECT * FROM machines WHERE id = ?", id).Scan(&m.ID, &m.Name)
+		err := db.QueryRow("SELECT * FROM machines WHERE id = ?", id).Scan(&m.ID, &m.Name, &m.OutletNumber, &m.Status)
 		if err != nil {
 			w.WriteHeader(http.StatusNotFound)
 			return
@@ -74,7 +75,7 @@ func getMachine(db *sql.DB) http.HandlerFunc {
 		params := mux.Vars(r)
 		id := params["id"]
 		var m Machine
-		err := db.QueryRow("SELECT * FROM machines WHERE id = $1", id).Scan(&m.ID, &m.Name)
+		err := db.QueryRow("SELECT * FROM machines WHERE id = $1", id).Scan(&m.ID, &m.Name, &m.OutletNumber, &m.Status)
 		if err != nil {
 			w.WriteHeader(http.StatusNotFound) //To set the response status code to 404 and send a header with that status code to the client
 		}
@@ -85,8 +86,8 @@ func getMachine(db *sql.DB) http.HandlerFunc {
 func createMachine(db *sql.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var m Machine
-		json.NewDecoder(r.Body).Decode(&m)                                               //Decode the JSON body of the new machine that is sent to Postman. The decoded value will be stored in  the var <m>
-		_, err := db.Exec("INSERT INTO machines (id, name) VALUES (?, ?)", m.ID, m.Name) //add the new machine to our table with the given id and name
+		json.NewDecoder(r.Body).Decode(&m)                                                                                               //Decode the JSON body of the new machine that is sent to Postman. The decoded value will be stored in  the var <m>
+		_, err := db.Exec("INSERT INTO machines (id, name, outlet, status) VALUES (?, ?, ?, ?)", m.ID, m.Name, m.OutletNumber, m.Status) //add the new machine to our table with its given characteristics
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -100,7 +101,7 @@ func updateMachine(db *sql.DB) http.HandlerFunc {
 		json.NewDecoder(r.Body).Decode(&m)
 		params := mux.Vars(r)
 		id := params["id"]
-		_, err := db.Exec("UPDATE machines SET name = $1 WHERE id = $2", m.Name, id)
+		_, err := db.Exec("UPDATE machines SET name = $1, outlet = $2, status = $3 WHERE id = $4", m.Name, m.OutletNumber, m.Status, id)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -117,7 +118,7 @@ func main() {
 	//Connection to postgres database
 	db, err := sql.Open("postgres", os.Getenv("DATABASE_URL"))
 	if err != nil {
-		log.Fatal(err)
+		log.Fatalf("Could not connect to database: %v", err)
 	}
 	defer db.Close()
 
