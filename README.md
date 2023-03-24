@@ -26,13 +26,19 @@ Given that our goal is to automate this process for users to easily deploy and s
 - Some basic knowledge of Go and PostgreSQL.
 
 ### Gorilla Mux Framework
-If you want to create an API in Go, you want to be able to route your request not just by the path but by its HTTP method as well. [Gorilla Mux](https://www.gorillatoolkit.org/) is a great web toolkit for that matter (lightweight HTTP router for Go). It allows us to define routes and handle HTTP requests and responses in a simple and efficient way. Mux uses a concept of middleware to handle requests before they are passed to the actual route handler.  
+If you want to create an API in Go, you want to be able to route your request not just by the path but by its HTTP method as well. [Gorilla Mux](https://www.gorillatoolkit.org/) is a great web toolkit for that matter (lightweight HTTP router for Go). It allows us to define routes and handle HTTP requests and responses in a simple and efficient way.  
+
 For this tutorial, we are manipulating Mux since it is generally considered to be better due to its more customizable, performant, and feature-rich nature, as well as its comprehensive documentation and established community. However, you can use other frameworks like Gin-Gonic, Go-Chi and so on.
 
 ### Building our Go API
-First, create a new project directory: 
+First, create a new project directory. Then, before we start installing all the packages, we’ll need to initialise Go Modules to manage our dependencies:
 ```
-$ mkdir go-api && cd go-api  
+$ mkdir go-api && cd go-api 
 $ go mod init api
 ```
-You will usually find Go projects using GitHub or GitLab path as module name though you can also set it up with a custom domain as the case above.
+We used a custom name for our module, though you can also set it up with your GitHub or GitLab path.
+
+With Go Modules set up, we can now install Mux framework and Postgres library:
+```
+$ go get github.com/gorilla/mux github.com/lib/pq
+```
