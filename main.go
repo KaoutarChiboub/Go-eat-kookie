@@ -36,7 +36,7 @@ func getMachines(db *sql.DB) http.HandlerFunc {
 		}
 		defer rows.Close()
 
-		machines := []Machine{}
+		//machines := []Machine{}
 		for rows.Next() {
 			var m Machine
 			if err := rows.Scan(&m.ID, &m.Name, &m.OutletNumber, &m.Status); err != nil {
@@ -45,7 +45,7 @@ func getMachines(db *sql.DB) http.HandlerFunc {
 			if err := rows.Err(); err != nil {
 				log.Fatal(err)
 			}
-			json.NewEncoder(w).Encode(machines)
+			json.NewEncoder(w).Encode(m)
 		}
 	}
 }
@@ -56,7 +56,7 @@ func deleteMachine(db *sql.DB) http.HandlerFunc {
 		params := mux.Vars(r) //params extracts the URL parameters from the request made by the client => Here its the machine ID.
 		id := params["id"]
 		var m Machine
-		err := db.QueryRow("SELECT * FROM machines WHERE id = ?", id).Scan(&m.ID, &m.Name, &m.OutletNumber, &m.Status)
+		err := db.QueryRow("SELECT * FROM machines WHERE id = $1", id).Scan(&m.ID, &m.Name, &m.OutletNumber, &m.Status)
 		if err != nil {
 			w.WriteHeader(http.StatusNotFound)
 			return
@@ -101,7 +101,7 @@ func updateMachine(db *sql.DB) http.HandlerFunc {
 		json.NewDecoder(r.Body).Decode(&m)
 		params := mux.Vars(r)
 		id := params["id"]
-		_, err := db.Exec("UPDATE machines SET name = $1, outlet = $2, status = $3 WHERE id = $4", m.Name, m.OutletNumber, m.Status, id)
+		_, err := db.Exec("UPDATE machines SET name = $1, outlet_number = $2, status = $3 WHERE id = $4", m.Name, m.OutletNumber, m.Status, id)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -128,11 +128,11 @@ func main() {
 	//Creating our slices of movies (simplified data model for this example)
 
 	//We call the set of functions on our 2 endpoints to handle HTTP methods (CRUD requests)
-	r.HandleFunc("/users", getMachines(db)).Methods("GET")
-	r.HandleFunc("/users/{id}", getMachine(db)).Methods("GET")
-	r.HandleFunc("/users", createMachine(db)).Methods("POST")
-	r.HandleFunc("/users/{id}", updateMachine(db)).Methods("PUT")
-	r.HandleFunc("/users/{id}", deleteMachine(db)).Methods("DELETE")
+	r.HandleFunc("/machines", getMachines(db)).Methods("GET")
+	r.HandleFunc("/machines/{id}", getMachine(db)).Methods("GET")
+	r.HandleFunc("/machines", createMachine(db)).Methods("POST")
+	r.HandleFunc("/machines/{id}", updateMachine(db)).Methods("PUT")
+	r.HandleFunc("/machines/{id}", deleteMachine(db)).Methods("DELETE")
 
 	fmt.Printf("Starting the server at port 8008\n")
 
