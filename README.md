@@ -42,7 +42,11 @@ We used a custom name for our module, though you can also set it up with your Gi
 ```
 $ go get github.com/gorilla/mux github.com/lib/pq
 ```
-3. From Docker Hub, we can pull the docker image (k00kie/go-api) that packages our Go application (API) where our API code (main.go) and dependecies are built. 
+3. Clone the repository:
+``` 
+$ git clone https://gitlab.inria.fr/fantastic-fanfare/adorable_alien.git
+```  
+4. From Docker Hub, we can pull the docker image (k00kie/go-api) that packages our Go application (API) where our API code (main.go) and dependecies are built. 
 
 Since our backend (Go application) depends on PostgreSQL database container, we call our docker compose file to start running both services.
 ```
