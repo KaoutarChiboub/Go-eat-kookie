@@ -3,7 +3,7 @@ version: '3.9'
 services:
   go-api:
     container_name: go-api
-    build: .
+    image: k00kie/go-api
     environment:
       DATABASE_URL: "host=go_db user=postgres password=postgres dbname=postgres sslmode=disable"
     ports: 

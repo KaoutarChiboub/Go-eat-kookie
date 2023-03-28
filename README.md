@@ -31,14 +31,41 @@ If you want to create an API in Go, you want to be able to route your request no
 For this tutorial, we are manipulating Mux since it is generally considered to be better due to its more customizable, performant, and feature-rich nature, as well as its comprehensive documentation and established community. However, you can use other frameworks like Gin-Gonic, Go-Chi and so on.
 
 ### Building our Go API
-First, create a new project directory. Then, before we start installing all the packages, we’ll need to initialise Go Modules to manage our dependencies:
+1. First, create a new project directory. Then, before we start installing all the packages, we’ll need to initialise Go Modules to manage our dependencies:
 ```
 $ mkdir go-api && cd go-api 
 $ go mod init api
 ```
 We used a custom name for our module, though you can also set it up with your GitHub or GitLab path.
 
-With Go Modules set up, we can now install Mux framework and Postgres library:
+2. With Go Modules set up, we can now install Mux framework and Postgres library:
 ```
 $ go get github.com/gorilla/mux github.com/lib/pq
 ```
+3. From Docker Hub, we can pull the docker image (k00kie/go-api) that packages our Go application (API) where our API code (main.go) and dependecies are built. 
+
+Since our backend (Go application) depends on PostgreSQL database container, we call our docker compose file to start running both services.
+```
+$ docker compose up
+``` 
+Now you should be able to see somethign like this:
+![image info](./2running.png)
+
+At this point our server is listening on port 8080 and our postgres container contains our database from where we will query information.
+
+### PgAdmin 4 Setup
+[PgAdmin](https://www.pgadmin.org/) is an administrative application interface for PostgreSQL Database, you can create, design, and other database adminstrative tasks using these tools. 
+
+We used it to check on our databse and execute some queries to verify the interaction with our PostgreSQL database. You can install the desktop version of the application.
+
+First, open it and create a new local server with the name of your choice and configure the properties:
+![image info](./pgadminprop.png)
+
+After a successful connection, you can navigate to you_local_server > Databases > Postgres > Schemas > Public > Tables in order to see and interact with the database of the tutorial.
+![image info](./pgadmin.png)
+
+### Testing with PostMan
+The last step of this tutorial is to test our API using [PostMan](https://www.postman.com/). We will manipulate different HTTP methods like GET, POST, PUT and DELETE on the collection of endepoints we defined at the beginning of the tutorial.
+
+Here is a simple example of GET request to list all the available machines that we have:
+![image info](./postman.png)
