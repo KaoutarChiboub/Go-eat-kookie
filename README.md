@@ -5,7 +5,7 @@ This tutorial demonstrates how to build, in a containerized context, a simple RE
 In this hands-on, we are following a particular user story where we have a data set of devices or machines such that each is characterized by an ID, name, number of outlets and a status. We would like to successfully retrieve, create, update or delete a machine or its associated labels.
 
 ## Why Golang (Go) for Cloud Native Applications?
-![image info](Documentation/golang.jpg)
+![image info](./Documentation/golang.jpg)
 [Golang](https://go.dev/) is a programming language that is purposefully designed for cloud-native development. Its fast compile times and low cognitive load make it an efficient language for developing maintainable workloads like APIs, web apps, CLI apps, networking, data processing, and cloud-native apps. 
 Using less resources, Golang delivers the performance of C, the ease-of-use of Python, the garbage collection feature of Java, and native, language-level support for concurrency. Additionally, Go provides significant performance advantages over other languages (e.g. Python) because it is statistically compiled to machine code instead of being interpreted or having virtual runtimes.
 
@@ -107,7 +107,7 @@ VALUES
 $ docker compose up
 ``` 
 Now you should be able to see something like this:
-![image info](Documentation/2running.png)
+![image info](./Documentation/2running.png)
 
 At this point our server is listening on port 8080 and the postgres container contains our database from where we will query information.
 
@@ -122,14 +122,14 @@ First, open it and create a new local server with the name of your choice and co
 Username: postgres 
 Password: postgres
 ```
-![image info](Documentation/pgadminprop.png)
+![image info](./Documentation/pgadminprop.png)
 
 After a successful connection to the server, you can navigate to you_local_server > Databases > Postgres > Schemas > Public > Tables in order to see and interact with the database of the tutorial.
 
-![image info](Documentation/pgadmin.png)
+![image info](./Documentation/pgadmin.png)
 
 ### Testing with PostMan
 The last step of this tutorial is to test our API using [PostMan](https://www.postman.com/). We will manipulate different HTTP methods like GET, POST, PUT and DELETE on the collection of endepoints we defined at the beginning of the tutorial. You can also so that in your browser to visualize the results.
 
 Here is a simple example of GET request to list all the available machines that we have:
-![image info](.Documentation/postman1.png)
+![image info](./Documentation/postman1.png)
