@@ -23,7 +23,6 @@ services:
     volumes:
       - ./pgdata:/var/lib/postgresql/data
       - ./data.sql:/docker-entrypoint-initdb.d/data.sql
-    #command: psql -U postgres -d postgres < docker-entrypoint-initdb.d/data.sql
 
 volumes:
   pgdata:
