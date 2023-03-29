@@ -102,11 +102,11 @@ VALUES
   ('sopnode-z1', 9, 'Inactive');
 ```
 
-1. Since our backend (Go application) depends on PostgreSQL database container, we call our docker compose file to start running both services.
+4. Since our backend (Go application) depends on PostgreSQL database container, we call our docker compose file to start running both services.
 ```
 $ docker compose up
 ``` 
-Now you should be able to see somethign like this:
+Now you should be able to see something like this:
 ![image info](./2running.png)
 
 At this point our server is listening on port 8080 and the postgres container contains our database from where we will query information.
@@ -118,16 +118,18 @@ We used it to check on our database and execute some queries to verify the inter
 
 First, open it and create a new local server with the name of your choice and configure the properties with the same parameters we used in docker compose file:
 
-```php
-user=postgres password=postgres
+```yml
+Username: postgres 
+Password: postgres
 ```
 ![image info](./pgadminprop.png)
 
-After a successful connection, you can navigate to you_local_server > Databases > Postgres > Schemas > Public > Tables in order to see and interact with the database of the tutorial.
+After a successful connection to the server, you can navigate to you_local_server > Databases > Postgres > Schemas > Public > Tables in order to see and interact with the database of the tutorial.
+
 ![image info](./pgadmin.png)
 
 ### Testing with PostMan
 The last step of this tutorial is to test our API using [PostMan](https://www.postman.com/). We will manipulate different HTTP methods like GET, POST, PUT and DELETE on the collection of endepoints we defined at the beginning of the tutorial. You can also so that in your browser to visualize the results.
 
 Here is a simple example of GET request to list all the available machines that we have:
-![image info](./postman.png)
+![image info](./postman1.png)
