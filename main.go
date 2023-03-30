@@ -125,7 +125,6 @@ func main() {
 	//NewRouter is a function inside mux library to define our new router
 	r := mux.NewRouter()
 
-	//Creating our slices of movies (simplified data model for this example)
 
 	//We call the set of functions on our 2 endpoints to handle HTTP methods (CRUD requests)
 	r.HandleFunc("/machines", getMachines(db)).Methods("GET")
